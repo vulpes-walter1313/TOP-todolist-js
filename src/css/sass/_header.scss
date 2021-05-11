@@ -1,0 +1,12 @@
+.top-bar {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: var(--black);
+    color: var(--white);
+    align-items: center;
+    p {
+        font-weight: 600;
+    }
+}

@@ -1,0 +1,53 @@
+.main-ui {
+    padding: 1rem;
+}
+.top-line {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+    h2 {
+        color: var(--white);
+    }
+}
+.todos-list-container {
+    display: flex;
+    flex-flow: column;
+}
+.todo-component {
+    border: 1px solid var(--white);
+    border-radius: 5px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--white);
+    margin: .5rem 0;
+    p {
+        padding: 0 1rem;
+    }
+    .todo-options-group {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            // background-color: pink;
+            width: 33px;
+            height: 33px;
+            cursor: pointer;
+            i {
+                pointer-events: none;
+            }
+        }
+        .check-btn {
+            background-color: var(--check-btn-color);
+        }
+        .trash-btn {
+            background-color: var(--trash-btn-color);
+            border-radius: 0 5px 5px 0;
+        }
+    }
+}

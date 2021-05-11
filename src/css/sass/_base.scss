@@ -1,0 +1,19 @@
+:root {
+    --black: #02111B;
+    --white: #F5F5F5;
+    --font-stack: Verdana, Geneva, Tahoma, sans-serif;
+    --bg-color: #303136;
+    --check-btn-color: #69BA3B;
+    --trash-btn-color: #DB4C40;
+}
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    font-family: var(--font-stack);
+}
+body {
+    background-color: var(--bg-color);
+}
