@@ -1,0 +1,40 @@
+.add-todo-form-wrapper {
+    background-color: rgba(0, 0, 0, .7);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    form {
+        position: relative;
+        transform: translateY(50%);
+        display: flex;
+        flex-flow: column;
+        height: min(70vh, 25em);
+        width: min(70vw, 25em);
+        margin: 0 auto;
+        justify-content: center;
+        background-color: var(--white);
+        padding: 1rem;
+        p {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        input[type="text"], input[type="number"] {
+            font-size: 1.1rem;
+            padding: .5rem;
+        }
+        input[type="button"] {
+            font-size: 1.1rem;
+            margin: 1em 0 0;
+            padding: .5em;
+        }
+        label {
+            font-family: var(--font-stack);
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin: 1em 0 .5em;
+        }
+    }
+}
