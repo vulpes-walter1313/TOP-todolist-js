@@ -1,3 +1,13 @@
+import paintTopBar from './paintTopBar';
+import todoFormComponent from './todoFormComponent';
+function paintUI() {
+    let app = document.querySelector('.app-content');
+    app.appendChild(paintTopBar());
+    app.appendChild(mainUI());
+    app.appendChild(todoFormComponent());
+    mainUIEventListeners();
+}
+
 function mainUI() {
     let main = document.createElement("main");
     main.classList.add('main-ui');
@@ -17,11 +27,26 @@ function mainUI() {
     `;
     topLine.appendChild(select);
     
-
     main.appendChild(topLine);
     main.appendChild(todosList());
     main.appendChild(addTodoBtn());
     return main;
+}
+
+function mainUIEventListeners() {
+    // Button to add todo unhides form wrapper
+    document.querySelector('#add-todo-btn').addEventListener('click', ()=>{
+        document.querySelector('.add-todo-form-wrapper').classList.toggle('hide');
+    });
+    // form wrappers click hides form wrapper
+    const formWrapper = document.querySelector('div.add-todo-form-wrapper')
+    formWrapper.addEventListener('click', function(e){
+        e.stopPropagation();
+        if (e.target.classList.contains('add-todo-form-wrapper')) {
+            formWrapper.classList.toggle('hide');
+        }
+    });
+
 }
 
 function todosList() {
@@ -39,4 +64,4 @@ function addTodoBtn() {
     return addTodoBtn;
 }
 
-export default mainUI;
+export { paintUI, mainUIEventListeners };
