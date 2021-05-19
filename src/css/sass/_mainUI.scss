@@ -51,6 +51,9 @@
         }
     }
 }
+.todo-component.checked-todo {
+    opacity: .6;
+}
 
 .add-todo-btn {
     padding: .5rem 1rem;

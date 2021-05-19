@@ -1,10 +1,15 @@
 import paintTopBar from './paintTopBar';
 import todoFormComponent from './todoFormComponent';
+import Storage from './storage';
+import createTodoComponent from './todoComponent';
+import todoFactory from './todoFactory';
+
 function paintUI() {
     let app = document.querySelector('.app-content');
     app.appendChild(paintTopBar());
     app.appendChild(mainUI());
     app.appendChild(todoFormComponent());
+    displayTodos();
     mainUIEventListeners();
 }
 
@@ -64,4 +69,21 @@ function addTodoBtn() {
     return addTodoBtn;
 }
 
-export { paintUI, mainUIEventListeners };
+function displayTodos() {
+    let todos = Storage.getTodoList();
+    // Storage.getTodoList() only gets basic values, not a formatted object. So the todos array is mapped into a todoFactory Function to convert it into a todo object.
+    let realTodos = todos.map(todo => {
+        return todoFactory(todo.title, todo.desc, todo.priority, todo.checked);
+    });
+    const todosContainer = document.querySelector('.todos-list-container');
+    todosContainer.innerHTML = '';
+    let index = 0;
+    realTodos.forEach( todo=> {
+        let todoComp = createTodoComponent(todo.getTitle(), index, todo.isChecked());
+        todosContainer.appendChild(todoComp);
+        index += 1;
+        }
+    );
+}
+
+export { paintUI, mainUIEventListeners, displayTodos };
