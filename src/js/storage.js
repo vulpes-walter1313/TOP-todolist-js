@@ -17,7 +17,7 @@ class Storage {
     }
 
     static addTodoTask(todoObj) {
-        console.log(todoObj);
+        // console.log(todoObj);
         const title = todoObj.getTitle();
         const desc = todoObj.getDescription();
         const priority = todoObj.getPriority();
