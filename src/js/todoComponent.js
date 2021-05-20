@@ -33,14 +33,14 @@ function createTodoComponent(title, indexKey, checked) {
 }
 
 function removeTask() {
-    console.dir(this.parentElement.parentElement);
+    // console.dir(this.parentElement.parentElement);
     const index = Number.parseInt(this.parentElement.parentElement.dataset.key);
     Storage.removeTodoTask(index);
     displayTodos();
 }
 
 function checkDone() {
-    console.log(this.parentElement.parentElement);
+    // console.log(this.parentElement.parentElement);
     let task = this.parentElement.parentElement;
     const index = task.dataset.key;
     task.classList.toggle('checked-todo');
