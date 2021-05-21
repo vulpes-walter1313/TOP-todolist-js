@@ -1,3 +1,4 @@
+import todoFactory from './todoFactory';
 class Storage {
     static getTodoList() {
         let todos;
@@ -6,37 +7,47 @@ class Storage {
         } else {
             todos = [];
         }
+        todos = todos.map(todo => {
+            // Data has to be returned as JS obj with a Todos properties and methods
+            return todoFactory(todo.title, todo.desc, todo.priority, todo.checked, todo.id);
+        });
         return todos;
     }
 
     static setTodoList(data) {
         // data is an array of todo-objects, each must be destructured and made
         // into json compatible code
+        let cleanData = data.map(todo => {
+            let newObj = { 
+                title: todo.getTitle(),
+                desc: todo.getDescription(),
+                priority: todo.getPriority(),
+                checked: todo.isChecked(),
+                id: todo.getId()
+            };
+            return newObj;
+        });
         
-        localStorage.setItem('todos', JSON.stringify(data));
+        localStorage.setItem('todos', JSON.stringify(cleanData));
     }
 
     static addTodoTask(todoObj) {
         // console.log(todoObj);
-        const title = todoObj.getTitle();
-        const desc = todoObj.getDescription();
-        const priority = todoObj.getPriority();
-        const checked = todoObj.isChecked();
-        const task = {title, desc, priority, checked};
-        let todo = Storage.getTodoList();
-        todo.push(task);
-        Storage.setTodoList(todo);
-    }
-
-    static removeTodoTask(index) {
         let todos = Storage.getTodoList();
-        todos.splice(index, 1);
+        todos.push(todoObj);
         Storage.setTodoList(todos);
     }
 
-    static saveCheckStatus(index) {
+    static removeTodoTask(id) {
         let todos = Storage.getTodoList();
-        todos[index].checked = !todos[index].checked;
+        todos = todos.filter(todo => todo.getId() !== id);
+        Storage.setTodoList(todos);
+    }
+
+    static saveCheckStatus(id) {
+        let todos = Storage.getTodoList();
+        let index = todos.findIndex(todo => todo.getId() == id);
+        todos[index].flipChecked();
         Storage.setTodoList(todos);
     }
 

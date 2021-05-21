@@ -27,9 +27,10 @@ function submitTodo() {
     let todoDesc = document.querySelector('#todo-desc-input');
     let todoPrio = document.querySelector('#todo-prio-input');
     let todo;
-    let checked = false
+    let checked = false;
+    let id = Date.now();
     if (todoPrio.valueAsNumber < 4 && todoPrio.valueAsNumber > -1) {
-        todo = todoFactory(todoTitle.value, todoDesc.value, todoPrio.valueAsNumber, checked);
+        todo = todoFactory(todoTitle.value, todoDesc.value, todoPrio.valueAsNumber, checked, id);
     } else { 
         return;
     }

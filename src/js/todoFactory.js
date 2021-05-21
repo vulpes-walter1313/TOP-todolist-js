@@ -1,4 +1,4 @@
-function todoFactory(title, description, priority, checked=false) {
+function todoFactory(title, description, priority, checked=false, id) {
     
     function editTitle(newTitle) {
         title = newTitle;
@@ -21,15 +21,18 @@ function todoFactory(title, description, priority, checked=false) {
     function getPriority() {
         return priority;
     }
-    function getInfo() {
-        return `title: ${title}, Description: ${description}, priority: ${priority}`;
-    }
     function isChecked() {
         return checked;
     }
+    function flipChecked() {
+        checked = !checked;
+    }
+    function getId() {
+        return id;
+    }
 
     return {editTitle, getTitle, editDescription,
-        getDescription, editPriority, getPriority, getInfo, isChecked};
+        getDescription, editPriority, getPriority, getId, isChecked, flipChecked};
 }
 
 export default todoFactory;

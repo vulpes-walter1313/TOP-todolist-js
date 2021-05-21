@@ -1,12 +1,12 @@
 import Storage from './storage';
 import {displayTodos} from './mainUI';
-function createTodoComponent(title, indexKey, checked) {
+function createTodoComponent(title, id, checked) {
     let todoComponent = document.createElement('div');
     todoComponent.classList.add('todo-component');
     if (checked) {
         todoComponent.classList.add('checked-todo');
     }
-    todoComponent.setAttribute('data-key', indexKey);
+    todoComponent.setAttribute('data-key', id);
 
     let titleDisplay = document.createElement('p');
     titleDisplay.textContent = title;
@@ -34,17 +34,18 @@ function createTodoComponent(title, indexKey, checked) {
 
 function removeTask() {
     // console.dir(this.parentElement.parentElement);
-    const index = Number.parseInt(this.parentElement.parentElement.dataset.key);
-    Storage.removeTodoTask(index);
+    const id = Number.parseInt(this.parentElement.parentElement.dataset.key);
+    Storage.removeTodoTask(id);
     displayTodos();
 }
 
 function checkDone() {
     // console.log(this.parentElement.parentElement);
     let task = this.parentElement.parentElement;
-    const index = task.dataset.key;
+    const id = task.dataset.key;
     task.classList.toggle('checked-todo');
-    Storage.saveCheckStatus(index);
+    Storage.saveCheckStatus(id);
+    displayTodos();
 }
 
 
