@@ -30,6 +30,7 @@ function mainUI() {
         <option value="Uncompleted">Uncompleted</option>
         <option value="Completed">Completed</option>
     `;
+    select.addEventListener('change', displayTodos);
     topLine.appendChild(select);
     
     main.appendChild(topLine);
@@ -71,19 +72,31 @@ function addTodoBtn() {
 
 function displayTodos() {
     let todos = Storage.getTodoList();
-    // Storage.getTodoList() only gets basic values, not a formatted object. So the todos array is mapped into a todoFactory Function to convert it into a todo object.
-    let realTodos = todos.map(todo => {
-        return todoFactory(todo.title, todo.desc, todo.priority, todo.checked);
-    });
     const todosContainer = document.querySelector('.todos-list-container');
     todosContainer.innerHTML = '';
-    let index = 0;
-    realTodos.forEach( todo=> {
-        let todoComp = createTodoComponent(todo.getTitle(), index, todo.isChecked());
-        todosContainer.appendChild(todoComp);
-        index += 1;
-        }
-    );
+    const filterValue = document.querySelector('.top-line select').value;
+    if (filterValue == 'All') {
+        todos.forEach( todo=> {
+            let todoComp = createTodoComponent(todo.getTitle(), todo.getId(), todo.isChecked());
+            todosContainer.appendChild(todoComp);
+            
+        });
+    } else if (filterValue == 'Uncompleted') {
+        todos.forEach( todo=> {
+            if (todo.isChecked() == false) {
+                let todoComp = createTodoComponent(todo.getTitle(), todo.getId(), todo.isChecked());
+                todosContainer.appendChild(todoComp);
+            }
+        });
+    } else if (filterValue == 'Completed') {
+        todos.forEach( todo=> {
+            if (todo.isChecked() == true) {
+                let todoComp = createTodoComponent(todo.getTitle(), todo.getId(), todo.isChecked());
+                todosContainer.appendChild(todoComp);
+            }
+        });
+
+    }
 }
 
 export { paintUI, mainUIEventListeners, displayTodos };
