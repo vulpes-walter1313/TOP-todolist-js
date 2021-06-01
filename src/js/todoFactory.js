@@ -1,5 +1,6 @@
-function todoFactory(title, description, priority, checked=false, id) {
-    
+function todoFactory(title, description, priority, checked=false, id, dueDate) {
+    // dueDate lives as a string, and only when you use .getDueDate()
+    // it will return a Date object.
     function editTitle(newTitle) {
         title = newTitle;
     }
@@ -30,9 +31,16 @@ function todoFactory(title, description, priority, checked=false, id) {
     function getId() {
         return id;
     }
+    function getDueDate() {
+        return new Date(dueDate);
+    }
+    function editDueDate(date) {
+        dueDate = date;
+    }
 
     return {editTitle, getTitle, editDescription,
-        getDescription, editPriority, getPriority, getId, isChecked, flipChecked};
+        getDescription, editPriority, getPriority, getId,
+        isChecked, flipChecked, getDueDate, editDueDate};
 }
 
 export default todoFactory;

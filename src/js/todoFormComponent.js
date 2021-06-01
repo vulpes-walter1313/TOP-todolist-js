@@ -10,11 +10,13 @@ function todoFormComponent() {
     form.innerHTML = `
         <p>Add Your Todo</p>
         <label for="todo-title-input">Title</label>
-        <input type="text" name"todo-title-input" id="todo-title-input">
+        <input type="text" name="todo-title-input" id="todo-title-input">
         <label for="todo-desc-input">Description</label>
-        <input type="text" name"todo-desc-input" id="todo-desc-input">
+        <input type="text" name="todo-desc-input" id="todo-desc-input">
         <label for="todo-prio-input">Priority (0-3)</label>
-        <input type="number" name"todo-prio-input" id="todo-prio-input" min="0" max="3">
+        <input type="number" name="todo-prio-input" id="todo-prio-input" min="0" max="3">
+        <label for="todo-duedate-input">Due Date</label>
+        <input type="date" name="todo-duedate-input" id="todo-duedate-input">
         <input type="button" value="Add">
     `;
     form.querySelector('input[type="button"]').addEventListener('click', submitTodo);
@@ -26,11 +28,12 @@ function submitTodo() {
     let todoTitle = document.querySelector('#todo-title-input');
     let todoDesc = document.querySelector('#todo-desc-input');
     let todoPrio = document.querySelector('#todo-prio-input');
+    let todoDueDate = document.querySelector('#todo-duedate-input');
     let todo;
     let checked = false;
     let id = Date.now();
     if (todoPrio.valueAsNumber < 4 && todoPrio.valueAsNumber > -1) {
-        todo = todoFactory(todoTitle.value, todoDesc.value, todoPrio.valueAsNumber, checked, id);
+        todo = todoFactory(todoTitle.value, todoDesc.value, todoPrio.valueAsNumber, checked, id, todoDueDate.value);
     } else { 
         return;
     }
