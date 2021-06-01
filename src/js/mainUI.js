@@ -2,7 +2,6 @@ import paintTopBar from './paintTopBar';
 import todoFormComponent from './todoFormComponent';
 import Storage from './storage';
 import createTodoComponent from './todoComponent';
-import todoFactory from './todoFactory';
 
 function paintUI() {
     let app = document.querySelector('.app-content');
