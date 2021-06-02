@@ -9,7 +9,7 @@ class Storage {
         }
         todos = todos.map(todo => {
             // Data has to be returned as JS obj with a Todos properties and methods
-            return todoFactory(todo.title, todo.desc, todo.priority, todo.checked, todo.id, Date.parse(todo.dueDate));
+            return todoFactory(todo.title, todo.desc, todo.priority, todo.checked, todo.id, Date.parse(todo.dueDate), todo.project);
         });
         return todos;
     }
@@ -24,7 +24,8 @@ class Storage {
                 priority: todo.getPriority(),
                 checked: todo.isChecked(),
                 id: todo.getId(),
-                dueDate: todo.getDueDate().toDateString()
+                dueDate: todo.getDueDate().toDateString(),
+                project: todo.getProject()
             };
             return newObj;
         });

@@ -15,6 +15,8 @@ function todoFormComponent() {
         <input type="text" name="todo-desc-input" id="todo-desc-input">
         <label for="todo-prio-input">Priority (0-3)</label>
         <input type="number" name="todo-prio-input" id="todo-prio-input" min="0" max="3">
+        <label for="todo-project-input">Project</label>
+        <input type="text" name="todo-project-input" id="todo-project-input">
         <label for="todo-duedate-input">Due Date</label>
         <input type="date" name="todo-duedate-input" id="todo-duedate-input">
         <input type="button" value="Add">
@@ -29,11 +31,12 @@ function submitTodo() {
     let todoDesc = document.querySelector('#todo-desc-input');
     let todoPrio = document.querySelector('#todo-prio-input');
     let todoDueDate = document.querySelector('#todo-duedate-input');
+    let todoProject = document.querySelector('#todo-project-input');
     let todo;
     let checked = false;
     let id = Date.now();
     if (todoPrio.valueAsNumber < 4 && todoPrio.valueAsNumber > -1) {
-        todo = todoFactory(todoTitle.value, todoDesc.value, todoPrio.valueAsNumber, checked, id, todoDueDate.value);
+        todo = todoFactory(todoTitle.value, todoDesc.value, todoPrio.valueAsNumber, checked, id, todoDueDate.value, todoProject.value.toLowerCase());
     } else { 
         return;
     }
