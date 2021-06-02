@@ -27,11 +27,11 @@ function todoFormComponent() {
 }
 
 function submitTodo() {
-    let todoTitle = document.querySelector('#todo-title-input');
-    let todoDesc = document.querySelector('#todo-desc-input');
-    let todoPrio = document.querySelector('#todo-prio-input');
-    let todoDueDate = document.querySelector('#todo-duedate-input');
-    let todoProject = document.querySelector('#todo-project-input');
+    let todoTitle = this.form.querySelector('#todo-title-input');
+    let todoDesc = this.form.querySelector('#todo-desc-input');
+    let todoPrio = this.form.querySelector('#todo-prio-input');
+    let todoDueDate = this.form.querySelector('#todo-duedate-input');
+    let todoProject = this.form.querySelector('#todo-project-input');
     let todo;
     let checked = false;
     let id = Date.now();
