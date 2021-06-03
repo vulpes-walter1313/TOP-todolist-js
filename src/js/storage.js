@@ -31,6 +31,14 @@ class Storage {
         });
         
         localStorage.setItem('todos', JSON.stringify(cleanData));
+
+        let projects = [];
+        cleanData.forEach(todo => {
+            if (projects.includes(todo.project) == false) {
+                projects.push(todo.project);
+            }
+        });
+        Storage.setProjectList(projects);
     }
 
     static addTodoTask(todoObj) {
@@ -51,6 +59,14 @@ class Storage {
         let index = todos.findIndex(todo => todo.getId() == id);
         todos[index].flipChecked();
         Storage.setTodoList(todos);
+    }
+
+    static setProjectList(list) {
+        localStorage.setItem('projectlist', JSON.stringify(list));
+    }
+
+    static getProjectList() {
+        return JSON.parse(localStorage.getItem('projectlist'));
     }
 
 }
