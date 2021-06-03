@@ -7,10 +7,10 @@
     right: 0;
     form {
         position: relative;
-        transform: translateY(20%);
+        // transform: translateY(20%);
         display: flex;
         flex-flow: column;
-        height: min(70vh, 25em);
+        height: min(90vh, 36em);
         width: min(70vw, 25em);
         margin: 0 auto;
         justify-content: center;
@@ -21,7 +21,7 @@
             font-size: 1.5rem;
             font-weight: 600;
         }
-        input[type="text"], input[type="number"] {
+        input[type="text"], input[type="number"], input[type="date"] {
             font-size: 1.1rem;
             padding: .5rem;
         }
@@ -34,7 +34,7 @@
             font-family: var(--font-stack);
             font-weight: 600;
             font-size: 1.3rem;
-            margin: 1em 0 .5em;
+            margin: .7em 0 .5em;
         }
     }
 }
