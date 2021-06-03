@@ -1,5 +1,6 @@
 import Storage from './storage';
 import {displayTodos} from './mainUI';
+import formatTimeHTML from './formatTimeHTML';
 function createTodoComponent(title, id, checked) {
     let todoComponent = document.createElement('div');
     todoComponent.classList.add('todo-component');
@@ -15,7 +16,7 @@ function createTodoComponent(title, id, checked) {
     let todoOptionsDiv = document.createElement('div');
     todoOptionsDiv.classList.add('todo-options-group');
     todoOptionsDiv.innerHTML = `
-    <div>
+    <div class="details-btn">
         <i class="fas fa-ellipsis-h"></i>
     </div>
     <div class="check-btn">
@@ -28,6 +29,7 @@ function createTodoComponent(title, id, checked) {
     todoComponent.appendChild(todoOptionsDiv);
     todoComponent.querySelector('.trash-btn').addEventListener('click', removeTask);
     todoComponent.querySelector('.check-btn').addEventListener('click', checkDone);
+    todoComponent.querySelector('.details-btn').addEventListener('click', seeEditDetail);
     return todoComponent;
 
 }
@@ -48,6 +50,38 @@ function checkDone() {
     displayTodos();
 }
 
+function seeEditDetail() {
+    let detailsForm = document.querySelector('div.todo-more-info-display-wrapper');
+    detailsForm.classList.toggle('hide');
+    const taskId = this.parentElement.parentElement.dataset.key;
+    const taskObj = Storage.getTodoList().find(task => task.getId() == taskId)
+
+    const taskTitle = detailsForm.querySelector('#more-info-task-title');
+    const taskTitleValue = taskObj.getTitle();
+    const taskDesc = detailsForm.querySelector('#more-info-task-desc');
+    const taskDescValue = taskObj.getDescription();
+    const taskProject = detailsForm.querySelector('#more-info-task-project');
+    const taskProjectValue = taskObj.getProject();
+    const taskPriority = detailsForm.querySelector('#more-info-task-priority');
+    const taskPriorityValue = taskObj.getPriority();
+    const taskDueDate = detailsForm.querySelector('#more-info-task-duedate');
+    const taskDueDateValue = taskObj.getDueDate();
+    const taskSaveBtn = detailsForm.querySelector("#details-save-btn");
+
+    taskSaveBtn.setAttribute("data-todoid", taskId);
+    
+    taskTitle.setAttribute("placeholder", taskTitleValue);
+    taskTitle.value = '';
+
+    taskDesc.setAttribute("placeholder", taskDescValue);
+    taskDesc.value = '';
+
+    taskProject.setAttribute("placeholder", taskProjectValue);
+    taskProject.value = '';
+    taskPriority.setAttribute("value", taskPriorityValue);
+    taskDueDate.setAttribute("value", formatTimeHTML(taskDueDateValue));
+    taskDueDate.setAttribute("min", formatTimeHTML(new Date()));
+}
 
 
 export default createTodoComponent;
