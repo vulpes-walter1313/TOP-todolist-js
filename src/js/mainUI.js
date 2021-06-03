@@ -141,38 +141,37 @@ function moreInfoDisplay() {
         });
         const saveBtn = infoDisplay.querySelector('#details-save-btn');
 
-        saveBtn.addEventListener('click', (e) =>{
-            e.stopPropagation();
-            if (e.target.id === 'details-save-btn') {
-                console.log(e.target.dataset.todoid);
-                let todos = Storage.getTodoList();
-                const taskTitle = document.querySelector('#more-info-task-title');
-                const taskDesc = document.querySelector('#more-info-task-desc');
-                const taskProject = document.querySelector('#more-info-task-project');
-                const taskPriority = document.querySelector('#more-info-task-priority');
-                const taskDueDate = document.querySelector('#more-info-task-duedate');
-
-                todos.map(todo => {
-                    if (todo.getId() == e.target.dataset.todoid) {
-                        todo.editTitle(taskTitle.value || taskTitle.getAttribute('placeholder'));
-                        console.log(`Task Title: ${taskTitle.value || taskTitle.getAttribute('placeholder')}`);
-                        todo.editDescription(taskDesc.value || taskDesc.getAttribute('placeholder'))
-                        console.log(`Task Description: ${taskDesc.value || taskDesc.getAttribute('placeholder')}`);
-                        todo.setProject(taskProject.value || taskProject.getAttribute('placeholder'))
-                        console.log(`Task Project: ${taskProject.value || taskProject.getAttribute('placeholder')}`);
-                        todo.editPriority(taskPriority.value)
-                        console.log(`Task Priority: ${taskPriority.value}`);
-                        todo.editDueDate(taskDueDate.value);
-                        console.log(`Task DueDate: ${taskDueDate.value}`);
-                    }
-                    return todo;
-                });
-                Storage.setTodoList(todos);
-                infoDisplay.classList.toggle('hide');
-                displayTodos();
-            }
-        });
+        saveBtn.addEventListener('click', saveTaskDetails);
     return infoDisplay;
+}
+
+function saveTaskDetails() {
+    let todos = Storage.getTodoList();
+    const infoDisplay = document.querySelector('.todo-more-info-display-wrapper');
+    const taskTitle = document.querySelector('#more-info-task-title');
+    const taskDesc = document.querySelector('#more-info-task-desc');
+    const taskProject = document.querySelector('#more-info-task-project');
+    const taskPriority = document.querySelector('#more-info-task-priority');
+    const taskDueDate = document.querySelector('#more-info-task-duedate');
+
+    todos.map(todo => {
+        if (todo.getId() == this.dataset.todoid) {
+            todo.editTitle(taskTitle.value || taskTitle.getAttribute('placeholder'));
+            console.log(`Task Title: ${taskTitle.value || taskTitle.getAttribute('placeholder')}`);
+            todo.editDescription(taskDesc.value || taskDesc.getAttribute('placeholder'))
+            console.log(`Task Description: ${taskDesc.value || taskDesc.getAttribute('placeholder')}`);
+            todo.setProject(taskProject.value || taskProject.getAttribute('placeholder'))
+            console.log(`Task Project: ${taskProject.value || taskProject.getAttribute('placeholder')}`);
+            todo.editPriority(taskPriority.value)
+            console.log(`Task Priority: ${taskPriority.value}`);
+            todo.editDueDate(taskDueDate.value);
+            console.log(`Task DueDate: ${taskDueDate.value}`);
+        }
+        return todo;
+    });
+    Storage.setTodoList(todos);
+    infoDisplay.classList.toggle('hide');
+    displayTodos();
 }
 
 export { paintUI, mainUIEventListeners, displayTodos };
