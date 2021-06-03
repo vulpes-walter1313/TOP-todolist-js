@@ -20,6 +20,11 @@ and in localStorage.
 and as a `data-key` Element attribute.
 
 ## Todos
-- [ ] Add dates to todos
-- [ ] Add projects to todos
+- [x] Add dates to todos
+- [x] Add projects to todos
 - [ ] built sidebar with projects
+- [ ] give more info and editability to tasks
+
+## More info almost works
+The more info form gets all the info of the selected task, but needs an editing capability.
+For that in mainUI.js, write an event handle function that gets the todos from the `Storage` finds the task with the specific ID, edit the info, then store the updated list to localstorage.
