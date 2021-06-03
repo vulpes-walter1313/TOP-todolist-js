@@ -43,8 +43,11 @@ function submitTodo() {
     todoTitle.value = '';
     todoDesc.value = '';
     todoPrio.value = '';
+    todoProject.value = '';
     Storage.addTodoTask(todo);
     displayTodos();
+    const formWrapperDiv = document.querySelector('.add-todo-form-wrapper');
+    formWrapperDiv.classList.toggle('hide');
 
 }
 
