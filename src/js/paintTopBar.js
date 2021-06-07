@@ -10,6 +10,12 @@ function paintTopBar() {
     <div class="app-title">
         <p>TodoList</p>
     </div>`;
+    // event listeners
+    const sidebarMenuBtn = topBar.querySelector('.sidebar-toggle-btn');
+    sidebarMenuBtn.addEventListener('click', () =>{
+        const sidebar = document.querySelector('.sidebar-wrapper');
+        sidebar.classList.toggle('hide');
+    });
     return topBar;
 }
 
