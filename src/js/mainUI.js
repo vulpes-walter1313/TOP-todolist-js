@@ -2,6 +2,7 @@ import paintTopBar from './paintTopBar';
 import todoFormComponent from './todoFormComponent';
 import Storage from './storage';
 import createTodoComponent from './todoComponent';
+import toTitleCase from './toTitleCase';
 
 function paintUI() {
     let app = document.querySelector('.app-content');
@@ -9,6 +10,7 @@ function paintUI() {
     app.appendChild(mainUI());
     app.appendChild(todoFormComponent());
     app.appendChild(moreInfoDisplay());
+    app.appendChild(sideBarComponent());
     displayTodos();
     mainUIEventListeners();
 }
@@ -95,8 +97,8 @@ function displayTodos() {
                 todosContainer.appendChild(todoComp);
             }
         });
-
     }
+    updateProjectListSidebar();
 }
 
 function moreInfoDisplay() {
@@ -174,4 +176,57 @@ function saveTaskDetails() {
     displayTodos();
 }
 
-export { paintUI, mainUIEventListeners, displayTodos };
+function sideBarComponent() {
+    const sidebarWrapper = document.createElement('div');
+    sidebarWrapper.classList.add('sidebar-wrapper');
+    sidebarWrapper.classList.add('hide');
+
+    const sidebar = document.createElement('div');
+    sidebar.classList.add('sidebar-menu');
+    sidebar.innerHTML = `
+    <ul>
+        <a><li>All</li></a>
+        <a><li>Pending</li></a>
+        <a><li>Later This Week</li></a>
+    </ul>
+    <div class="sidebar-projects">
+        <p>Projects</p>
+        <i class="fas fa-plus"></i>
+    </div>
+    `;
+    
+    let projectListElement = document.createElement('div');
+    projectListElement.classList.add('projects-list');
+
+
+    sidebar.appendChild(projectListElement);
+    sidebarWrapper.appendChild(sidebar);
+
+    // event listeners
+    sidebarWrapper.addEventListener('click', (e)=> {
+        e.stopPropagation();
+        if (e.target.classList.contains('sidebar-wrapper')) {
+            sidebarWrapper.classList.toggle('hide');
+        }
+    });
+    return sidebarWrapper;
+}
+
+// Create a funtion that will update the projects list on the sidebar
+// After every displayTodos()
+
+function updateProjectListSidebar() {
+    const sidebarProjectList = document.querySelector('.projects-list');
+    sidebarProjectList.innerHTML = '';
+    const projects = Storage.getProjectList();
+    const ulElement = document.createElement('ul');
+
+    projects.forEach(project => {
+        const projectElement = document.createElement('li');
+        projectElement.setAttribute('data-projectkey', `${project}`);
+        projectElement.textContent = toTitleCase(project);
+        ulElement.appendChild(projectElement);
+    });
+    sidebarProjectList.appendChild(ulElement);
+}
+export { paintUI, displayTodos };
