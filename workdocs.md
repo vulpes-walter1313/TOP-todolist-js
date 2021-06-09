@@ -24,5 +24,13 @@ and as a `data-key` Element attribute.
 - [x] Add projects to todos
 - [x] built sidebar with projects
 - [x] give more info and editability to tasks
+- [x] Give functionality to `All`, `Pending`, `Later` in sidebar
 - [ ] Give functionality to projects in sidebar
 
+For the projects in the side bar. Do the same thing you did with `All`, `Pending`, and `Later`.
+Make a `data-key` attribute in the `div.todo-list-container` so that you can check the state with
+every `displayTodos()` execution.
+
+```HTML
+<div class="todo-list-container" data-listmode="all" data-project="work"></div>
+```
