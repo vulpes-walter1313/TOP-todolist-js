@@ -13,6 +13,17 @@
 .todos-list-container {
     display: flex;
     flex-flow: column;
+    .list-title {
+        font-size: 1.2rem;
+        color: var(--white);
+        margin: .5rem 0 0;
+    }
+    .break-message {
+        color: var(--white);
+        text-align: center;
+        margin: .5rem 0 0;
+        opacity: .8;
+    }
 }
 .todo-component {
     border: 1px solid var(--white);

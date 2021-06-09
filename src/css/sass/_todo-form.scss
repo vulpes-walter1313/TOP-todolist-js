@@ -10,23 +10,25 @@
         // transform: translateY(20%);
         display: flex;
         flex-flow: column;
-        height: min(90vh, 36em);
+        // height: min(90vh, 36em);
         width: min(70vw, 25em);
         margin: 0 auto;
         justify-content: center;
         background-color: var(--white);
         padding: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
         p {
             text-align: center;
             font-size: 1.5rem;
             font-weight: 600;
         }
         input[type="text"], input[type="number"], input[type="date"] {
-            font-size: 1.1rem;
-            padding: .5rem;
+            font-size: 1rem;
+            padding: .3rem .5rem;
         }
         input[type="button"] {
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin: 1em 0 0;
             padding: .5em;
         }
