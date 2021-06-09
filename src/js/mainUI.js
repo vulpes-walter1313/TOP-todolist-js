@@ -22,9 +22,9 @@ function mainUI() {
     let topLine = document.createElement("div");
     topLine.classList.add('top-line');
 
-    let pending = document.createElement('h2');
-    pending.textContent = "Pending";
-    topLine.appendChild(pending);
+    let headline = document.createElement('h2');
+    headline.textContent = "Todos";
+    topLine.appendChild(headline);
 
     let select = document.createElement('select');
     select.innerHTML = `
@@ -32,7 +32,9 @@ function mainUI() {
         <option value="Uncompleted">Uncompleted</option>
         <option value="Completed">Completed</option>
     `;
-    select.addEventListener('change', displayTodos);
+    select.addEventListener('change', function() {
+        displayTodos('all');
+    });
     topLine.appendChild(select);
     
     main.appendChild(topLine);
@@ -60,6 +62,7 @@ function mainUIEventListeners() {
 function todosList() {
     let todosListDiv = document.createElement('div');
     todosListDiv.classList.add('todos-list-container');
+    todosListDiv.setAttribute('data-listmode', 'all');
     return todosListDiv;
 }
 
@@ -74,9 +77,60 @@ function addTodoBtn() {
 
 function displayTodos() {
     let todos = Storage.getTodoList();
+    // Split todos into pending and do later
+    let pendingTodos = [];
+    let laterTodos = [];
+
+    todos.forEach(todo=>{
+        // loop through todos into their date status
+        if (todo.getDueDate() <= new Date()) {
+            pendingTodos.push(todo);
+        } else {
+            laterTodos.push(todo);
+        }
+    });
+
+    // display Todos
     const todosContainer = document.querySelector('.todos-list-container');
     todosContainer.innerHTML = '';
+    const displayType = todosContainer.dataset.listmode || 'all';
     const filterValue = document.querySelector('.top-line select').value;
+
+    if (displayType == 'all') {
+        let pending = document.createElement('p');
+        pending.textContent = 'Pending:';
+        pending.classList.add('list-title');
+        todosContainer.appendChild(pending);
+        writeTodos(pendingTodos, todosContainer, filterValue);
+        
+        let later = document.createElement('p');
+        later.textContent = 'To do Later:';
+        later.classList.add('list-title');
+        todosContainer.appendChild(later);
+        writeTodos(laterTodos, todosContainer, filterValue);
+    } else if (displayType == 'pending') {
+        let pending = document.createElement('p');
+        pending.textContent = 'Pending:';
+        pending.classList.add('list-title');
+        todosContainer.appendChild(pending);
+        writeTodos(pendingTodos, todosContainer, filterValue);
+    } else if (displayType == 'later') {
+        let later = document.createElement('p');
+        later.textContent = 'To do Later:';
+        later.classList.add('list-title');
+        todosContainer.appendChild(later);
+        writeTodos(laterTodos, todosContainer, filterValue);
+    }
+    updateProjectListSidebar();
+}
+
+function writeTodos(todos, todosContainer, filterValue) {
+    if (todos.length == 0) {
+        let message = document.createElement('p');
+        message.textContent = "Nothing to do! Have a break!";
+        message.classList.add('break-message');
+        todosContainer.appendChild(message);
+    }
     if (filterValue == 'All') {
         todos.forEach( todo=> {
             let todoComp = createTodoComponent(todo.getTitle(), todo.getId(), todo.isChecked());
@@ -98,7 +152,6 @@ function displayTodos() {
             }
         });
     }
-    updateProjectListSidebar();
 }
 
 function moreInfoDisplay() {
@@ -159,15 +212,15 @@ function saveTaskDetails() {
     todos.map(todo => {
         if (todo.getId() == this.dataset.todoid) {
             todo.editTitle(taskTitle.value || taskTitle.getAttribute('placeholder'));
-            console.log(`Task Title: ${taskTitle.value || taskTitle.getAttribute('placeholder')}`);
+            // console.log(`Task Title: ${taskTitle.value || taskTitle.getAttribute('placeholder')}`);
             todo.editDescription(taskDesc.value || taskDesc.getAttribute('placeholder'))
-            console.log(`Task Description: ${taskDesc.value || taskDesc.getAttribute('placeholder')}`);
+            // console.log(`Task Description: ${taskDesc.value || taskDesc.getAttribute('placeholder')}`);
             todo.setProject(taskProject.value || taskProject.getAttribute('placeholder'))
-            console.log(`Task Project: ${taskProject.value || taskProject.getAttribute('placeholder')}`);
+            // console.log(`Task Project: ${taskProject.value || taskProject.getAttribute('placeholder')}`);
             todo.editPriority(taskPriority.value)
-            console.log(`Task Priority: ${taskPriority.value}`);
+            // console.log(`Task Priority: ${taskPriority.value}`);
             todo.editDueDate(taskDueDate.value);
-            console.log(`Task DueDate: ${taskDueDate.value}`);
+            // console.log(`Task DueDate: ${taskDueDate.value}`);
         }
         return todo;
     });
@@ -185,9 +238,9 @@ function sideBarComponent() {
     sidebar.classList.add('sidebar-menu');
     sidebar.innerHTML = `
     <ul>
-        <a><li>All</li></a>
-        <a><li>Pending</li></a>
-        <a><li>Later This Week</li></a>
+        <a data-key="all"><li>All</li></a>
+        <a data-key="pending"><li>Pending</li></a>
+        <a data-key="later"><li>Later This Week</li></a>
     </ul>
     <div class="sidebar-projects">
         <p>Projects</p>
@@ -209,6 +262,16 @@ function sideBarComponent() {
             sidebarWrapper.classList.toggle('hide');
         }
     });
+
+    let displayTypes = sidebar.querySelectorAll('ul:first-of-type a');
+    displayTypes.forEach(type=> {
+        type.addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.querySelector('.todos-list-container').setAttribute('data-listmode', this.dataset.key);
+            displayTodos();
+            sidebarWrapper.classList.toggle('hide');
+        });
+    });
     return sidebarWrapper;
 }
 
@@ -219,14 +282,16 @@ function updateProjectListSidebar() {
     const sidebarProjectList = document.querySelector('.projects-list');
     sidebarProjectList.innerHTML = '';
     const projects = Storage.getProjectList();
-    const ulElement = document.createElement('ul');
-
-    projects.forEach(project => {
-        const projectElement = document.createElement('li');
-        projectElement.setAttribute('data-projectkey', `${project}`);
-        projectElement.textContent = toTitleCase(project);
-        ulElement.appendChild(projectElement);
-    });
-    sidebarProjectList.appendChild(ulElement);
+    if (projects) {
+        const ulElement = document.createElement('ul');
+    
+        projects.forEach(project => {
+            const projectElement = document.createElement('li');
+            projectElement.setAttribute('data-projectkey', `${project}`);
+            projectElement.textContent = toTitleCase(project);
+            ulElement.appendChild(projectElement);
+        });
+        sidebarProjectList.appendChild(ulElement);
+    }
 }
 export { paintUI, displayTodos };

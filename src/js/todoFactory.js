@@ -43,7 +43,7 @@ function todoFactory(title, description, priority, checked=false, id, dueDate, p
         return project;
     }
     function setProject(newProject) {
-        project = newProject;
+        project = newProject.toLowerCase();
     }
 
     return {editTitle, getTitle, editDescription,
