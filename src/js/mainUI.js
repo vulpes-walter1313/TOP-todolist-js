@@ -143,14 +143,14 @@ function writeTodos(todos, todosContainer, filterValue, project) {
         });
     } else if (filterValue == 'Uncompleted') {
         todos.forEach( todo=> {
-            if (todo.isChecked() == false && project == 'all' || todo.getProject() == project) {
+            if (todo.isChecked() === false && (project == 'all' || todo.getProject() == project)) {
                 let todoComp = createTodoComponent(todo.getTitle(), todo.getId(), todo.isChecked());
                 todosContainer.appendChild(todoComp);
             }
         });
     } else if (filterValue == 'Completed') {
         todos.forEach( todo=> {
-            if (todo.isChecked() == true && project == 'all' || todo.getProject() == project) {
+            if (todo.isChecked() === true && (project == 'all' || todo.getProject() == project)) {
                 let todoComp = createTodoComponent(todo.getTitle(), todo.getId(), todo.isChecked());
                 todosContainer.appendChild(todoComp);
             }
