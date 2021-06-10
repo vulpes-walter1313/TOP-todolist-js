@@ -1,5 +1,7 @@
 .main-ui {
     padding: 1rem;
+    width: min(calc(100% - 2rem), 32em);
+    margin: 0 auto;
 }
 .top-line {
     display: flex;
@@ -71,4 +73,11 @@
     margin: 1rem 0 0;
     font-size: 1.2rem;
 
+}
+@media screen and (min-width: 46em){
+    .main-ui {
+        margin: 0 0 0 40%;
+        width: min(calc(100% - 2rem), 30em);
+    }
+    
 }

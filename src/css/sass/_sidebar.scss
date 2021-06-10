@@ -41,3 +41,28 @@
     right: 0;
     background-color: rgba(0, 0, 0, .8);
 }
+
+@media screen and (min-width: 46em){
+    .sidebar-wrapper.hide {
+        display: block;
+    }
+    .sidebar-wrapper {
+        position: absolute;
+        top: 3.19rem;
+        left: 0;
+        // right: 68vw; OG
+        right: max(68vw, 80%);
+        bottom: 0;
+        background-color: var(--bg-color);
+        .sidebar-menu {
+            position: unset;
+        }
+        ul a, ul li {
+            cursor: pointer;
+            &:hover {
+                color: var(--highlight-color-one);
+            }
+        }
+    }
+    
+}
