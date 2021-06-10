@@ -32,8 +32,8 @@ function mainUI() {
         <option value="Uncompleted">Uncompleted</option>
         <option value="Completed">Completed</option>
     `;
-    select.addEventListener('change', function() {
-        displayTodos('all');
+    select.addEventListener('change', function(e) {
+        displayTodos();
     });
     topLine.appendChild(select);
     
@@ -94,37 +94,39 @@ function displayTodos() {
     const todosContainer = document.querySelector('.todos-list-container');
     todosContainer.innerHTML = '';
     const displayType = todosContainer.dataset.listmode || 'all';
+    const displayProject = todosContainer.dataset.project || 'all';
     const filterValue = document.querySelector('.top-line select').value;
+    // console.log(`Project is ${displayProject}\nDisplay Type: ${displayType}\nfilter Value: ${filterValue}`);
 
     if (displayType == 'all') {
         let pending = document.createElement('p');
         pending.textContent = 'Pending:';
         pending.classList.add('list-title');
         todosContainer.appendChild(pending);
-        writeTodos(pendingTodos, todosContainer, filterValue);
+        writeTodos(pendingTodos, todosContainer, filterValue, displayProject);
         
         let later = document.createElement('p');
         later.textContent = 'To do Later:';
         later.classList.add('list-title');
         todosContainer.appendChild(later);
-        writeTodos(laterTodos, todosContainer, filterValue);
+        writeTodos(laterTodos, todosContainer, filterValue, displayProject);
     } else if (displayType == 'pending') {
         let pending = document.createElement('p');
         pending.textContent = 'Pending:';
         pending.classList.add('list-title');
         todosContainer.appendChild(pending);
-        writeTodos(pendingTodos, todosContainer, filterValue);
+        writeTodos(pendingTodos, todosContainer, filterValue, displayProject);
     } else if (displayType == 'later') {
         let later = document.createElement('p');
         later.textContent = 'To do Later:';
         later.classList.add('list-title');
         todosContainer.appendChild(later);
-        writeTodos(laterTodos, todosContainer, filterValue);
+        writeTodos(laterTodos, todosContainer, filterValue, displayProject);
     }
     updateProjectListSidebar();
 }
 
-function writeTodos(todos, todosContainer, filterValue) {
+function writeTodos(todos, todosContainer, filterValue, project) {
     if (todos.length == 0) {
         let message = document.createElement('p');
         message.textContent = "Nothing to do! Have a break!";
@@ -133,20 +135,22 @@ function writeTodos(todos, todosContainer, filterValue) {
     }
     if (filterValue == 'All') {
         todos.forEach( todo=> {
-            let todoComp = createTodoComponent(todo.getTitle(), todo.getId(), todo.isChecked());
-            todosContainer.appendChild(todoComp);
+            if (project == 'all' || todo.getProject() == project) {
+                let todoComp = createTodoComponent(todo.getTitle(), todo.getId(), todo.isChecked());
+                todosContainer.appendChild(todoComp);
+            }
             
         });
     } else if (filterValue == 'Uncompleted') {
         todos.forEach( todo=> {
-            if (todo.isChecked() == false) {
+            if (todo.isChecked() == false && project == 'all' || todo.getProject() == project) {
                 let todoComp = createTodoComponent(todo.getTitle(), todo.getId(), todo.isChecked());
                 todosContainer.appendChild(todoComp);
             }
         });
     } else if (filterValue == 'Completed') {
         todos.forEach( todo=> {
-            if (todo.isChecked() == true) {
+            if (todo.isChecked() == true && project == 'all' || todo.getProject() == project) {
                 let todoComp = createTodoComponent(todo.getTitle(), todo.getId(), todo.isChecked());
                 todosContainer.appendChild(todoComp);
             }
@@ -281,7 +285,9 @@ function sideBarComponent() {
 function updateProjectListSidebar() {
     const sidebarProjectList = document.querySelector('.projects-list');
     sidebarProjectList.innerHTML = '';
-    const projects = Storage.getProjectList();
+    let projects = Storage.getProjectList();
+    // Allows an option to show all projects
+    projects.unshift('all');
     if (projects) {
         const ulElement = document.createElement('ul');
     
@@ -292,6 +298,19 @@ function updateProjectListSidebar() {
             ulElement.appendChild(projectElement);
         });
         sidebarProjectList.appendChild(ulElement);
+
+        // Set up event Listeners
+        const projectsHTMLli = sidebarProjectList.querySelectorAll('li');
+        projectsHTMLli.forEach(li => {
+            li.addEventListener('click', function() {
+                // e.stopPropagation();
+                // Sets a data-project in the todos container div to the project key
+                document.querySelector('.todos-list-container').setAttribute('data-project', this.dataset.projectkey);
+                // Hides sidebar
+                document.querySelector('.sidebar-wrapper').classList.toggle('hide');
+                displayTodos();
+            });
+        });
     }
 }
 export { paintUI, displayTodos };
