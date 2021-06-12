@@ -25,7 +25,8 @@ and as a `data-key` Element attribute.
 - [x] built sidebar with projects
 - [x] give more info and editability to tasks
 - [x] Give functionality to `All`, `Pending`, `Later` in sidebar
-- [ ] Give functionality to projects in sidebar
+- [x] Give functionality to projects in sidebar
+- [x] on the `div.top-line`, add a `current project: X` component that when clicked, it resets to `all`. And have the inner text change when sidebar projects are selected.
 
 For the projects in the side bar. Do the same thing you did with `All`, `Pending`, and `Later`.
 Make a `data-key` attribute in the `div.todo-list-container` so that you can check the state with
