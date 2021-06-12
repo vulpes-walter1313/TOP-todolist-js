@@ -9,10 +9,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 40;
     .todo-more-info-display {
         background-color: var(--white);
         color: var(--black);
-        width: 80%;
+        width: min(80%, 25em);
         padding: 1rem;
         display: flex;
         flex-flow: column;
