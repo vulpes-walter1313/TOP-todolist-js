@@ -11,6 +11,24 @@
     h2 {
         color: var(--white);
     }
+    .top-line-group-one {
+        display: flex;
+        button {
+            margin: 0 0 0 1rem;
+            padding: .5rem;
+            appearance: none;
+            border-style: none;
+            border: 1px solid var(--white);
+            background-color: unset;
+            color: var(--white);
+            font-family: var(--font-stack);
+            font-size: 1rem;
+            &:hover {
+                color: var(--highlight-color-one);
+                border-color: var(--highlight-color-one);
+            }
+        }
+    }
 }
 .todos-list-container {
     display: flex;
