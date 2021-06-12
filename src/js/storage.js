@@ -66,7 +66,11 @@ class Storage {
     }
 
     static getProjectList() {
-        return JSON.parse(localStorage.getItem('projectlist'));
+        if (localStorage.getItem('projectlist')) {
+            return JSON.parse(localStorage.getItem('projectlist'));
+        } else {
+            return [];
+        }
     }
 
 }
