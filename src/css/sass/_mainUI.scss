@@ -90,6 +90,15 @@
     padding: .5rem 1rem;
     margin: 1rem 0 0;
     font-size: 1.2rem;
+    appearance: none;
+    border-style: none;
+    background-color: unset;
+    border: 1px solid var(--white);
+    color: var(--white);
+    cursor: pointer;
+    &:hover {
+        transform: scale(.95);
+    }
 
 }
 @media screen and (min-width: 46em){
