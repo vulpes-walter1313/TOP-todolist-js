@@ -12,6 +12,7 @@
         justify-content: space-between;
         padding: 0 0 .5rem;
         border-bottom: 2px solid var(--white);
+        margin: 1.5rem 0 0 0;
     }
     ul {
         list-style: none;
@@ -40,6 +41,12 @@
     left: 0;
     right: 0;
     background-color: rgba(0, 0, 0, .8);
+    ul a, ul li {
+        cursor: pointer;
+        &:hover {
+            color: var(--highlight-color-one);
+        }
+    }
 }
 
 @media screen and (min-width: 46em){
