@@ -22,9 +22,22 @@ function mainUI() {
     let topLine = document.createElement("div");
     topLine.classList.add('top-line');
 
+    let headlineContainer = document.createElement('div');
+    headlineContainer.classList.add('top-line-group-one');
+
     let headline = document.createElement('h2');
     headline.textContent = "Todos";
-    topLine.appendChild(headline);
+
+    let currentProjectComp = document.createElement('button');
+    currentProjectComp.setAttribute('type', 'button');
+    currentProjectComp.textContent = `Project: All`;
+    currentProjectComp.classList.add('top-line-cp-btn');
+
+    headlineContainer.appendChild(headline);
+    headlineContainer.appendChild(currentProjectComp);
+
+    topLine.appendChild(headlineContainer);
+
 
     let select = document.createElement('select');
     select.innerHTML = `
@@ -32,11 +45,18 @@ function mainUI() {
         <option value="Uncompleted">Uncompleted</option>
         <option value="Completed">Completed</option>
     `;
+    // event listeners
     select.addEventListener('change', function(e) {
         displayTodos();
     });
     topLine.appendChild(select);
-    
+    currentProjectComp.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const todosListContainer = document.querySelector('.todos-list-container');
+        todosListContainer.setAttribute('data-project', 'all');
+        currentProjectComp.textContent = 'Project: All';
+        displayTodos();
+    });
     main.appendChild(topLine);
     main.appendChild(todosList());
     main.appendChild(addTodoBtn());
@@ -106,7 +126,7 @@ function displayTodos() {
         writeTodos(pendingTodos, todosContainer, filterValue, displayProject);
         
         let later = document.createElement('p');
-        later.textContent = 'To do Later:';
+        later.textContent = 'Later this week:';
         later.classList.add('list-title');
         todosContainer.appendChild(later);
         writeTodos(laterTodos, todosContainer, filterValue, displayProject);
@@ -118,7 +138,7 @@ function displayTodos() {
         writeTodos(pendingTodos, todosContainer, filterValue, displayProject);
     } else if (displayType == 'later') {
         let later = document.createElement('p');
-        later.textContent = 'To do Later:';
+        later.textContent = 'Later this week:';
         later.classList.add('list-title');
         todosContainer.appendChild(later);
         writeTodos(laterTodos, todosContainer, filterValue, displayProject);
@@ -248,7 +268,6 @@ function sideBarComponent() {
     </ul>
     <div class="sidebar-projects">
         <p>Projects</p>
-        <i class="fas fa-plus"></i>
     </div>
     `;
     
@@ -287,6 +306,7 @@ function updateProjectListSidebar() {
     sidebarProjectList.innerHTML = '';
     let projects = Storage.getProjectList();
     // Allows an option to show all projects
+
     projects.unshift('all');
     if (projects) {
         const ulElement = document.createElement('ul');
@@ -305,7 +325,11 @@ function updateProjectListSidebar() {
             li.addEventListener('click', function() {
                 // e.stopPropagation();
                 // Sets a data-project in the todos container div to the project key
-                document.querySelector('.todos-list-container').setAttribute('data-project', this.dataset.projectkey);
+                const todosContainer = document.querySelector('.todos-list-container');
+                todosContainer.setAttribute('data-project', this.dataset.projectkey);
+                
+                const currentProjectIndicator = document.querySelector('.top-line-cp-btn');
+                currentProjectIndicator.textContent = `Project: ${toTitleCase(this.dataset.projectkey)}`;
                 // Hides sidebar
                 document.querySelector('.sidebar-wrapper').classList.toggle('hide');
                 displayTodos();
