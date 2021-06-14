@@ -106,5 +106,7 @@
         margin: 0 0 0 40%;
         width: min(calc(100% - 2rem), 30em);
     }
-    
+    .sidebar-toggle-btn {
+        display: none;
+    }
 }
