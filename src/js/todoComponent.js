@@ -1,5 +1,5 @@
 import Storage from './storage';
-import {displayTodos} from './mainUI';
+import mainUI from './mainUI';
 import formatTimeHTML from './formatTimeHTML';
 function createTodoComponent(title, id, checked) {
     let todoComponent = document.createElement('div');
@@ -38,7 +38,7 @@ function removeTask() {
     // console.dir(this.parentElement.parentElement);
     const id = Number.parseInt(this.parentElement.parentElement.dataset.key);
     Storage.removeTodoTask(id);
-    displayTodos();
+    mainUI.displayTodos();
 }
 
 function checkDone() {
@@ -47,7 +47,7 @@ function checkDone() {
     const id = task.dataset.key;
     task.classList.toggle('checked-todo');
     Storage.saveCheckStatus(id);
-    displayTodos();
+    mainUI.displayTodos();
 }
 
 function seeEditDetail() {

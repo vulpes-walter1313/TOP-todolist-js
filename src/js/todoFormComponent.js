@@ -1,6 +1,6 @@
 import todoFactory from './todoFactory';
 import Storage from './storage';
-import { displayTodos } from './mainUI';
+import mainUI from './mainUI';
 
 function todoFormComponent() {
     let formWrapperDiv = document.createElement('div');
@@ -45,7 +45,7 @@ function submitTodo() {
     todoPrio.value = '';
     todoProject.value = '';
     Storage.addTodoTask(todo);
-    displayTodos();
+    mainUI.displayTodos();
     const formWrapperDiv = document.querySelector('.add-todo-form-wrapper');
     formWrapperDiv.classList.toggle('hide');
 
