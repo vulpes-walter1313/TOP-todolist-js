@@ -48,7 +48,7 @@ const mainUI = (function() {
             <option value="Completed">Completed</option>
         `;
         // event listeners
-        select.addEventListener('change', function(e) {
+        select.addEventListener('change', function() {
             displayTodos();
         });
         topLine.appendChild(select);
